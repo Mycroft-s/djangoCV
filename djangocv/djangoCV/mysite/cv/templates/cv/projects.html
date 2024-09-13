@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - Hongdao Meng{% endblock %}
+
+{% block content %}
+<h2 style="color: #007bff; font-weight: bold;">Internship & Research Experiences</h2>
+<div class="row">
+    {% for project in projects %}
+    <div class="col-md-6 mb-4">
+        <div class="p-4" style="border: 1px solid #007bff; border-radius: 10px; padding: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <h5 style="color: #007bff;">{{ project.role }}</h5>
+            {% if project.company %}
+                <p><strong>Company:</strong> {{ project.company }}</p>
+            {% elif project.lab %}
+                <p><strong>Lab:</strong> {{ project.lab }}</p>
+            {% endif %}
+            <p><strong>Duration:</strong> {{ project.duration }}</p>
+            <ul>
+                {% for desc in project.description %}
+                <li>{{ desc }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

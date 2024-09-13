@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }}'s Resume</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入 Django 静态文件 -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-img {
+            border-radius: 50%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .section-title {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .skills ul, .hobbies ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">This is Mycroft</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active me-3" aria-current="page" href="/resume/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link me-3" href="/projects/">Internship & Research Experiences</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link me-3" href="/awards/">Honors & Publications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact/">Contact Me</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 主内容 -->
+<div class="container my-5">
+    <div class="row justify-content-center text-center">
+        <div class="col-md-4">
+            <img src="{% static 'images/mhdphoto.jpg' %}" alt="Hongdao Meng's Photo" class="profile-img mb-4" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover;">
+        </div>
+        <div class="col-md-8">
+            <h1>{{ name }}</h1>
+            <p><strong>Phone:</strong> {{ phone }} | <strong>Email:</strong> {{ email }}</p>
+            <p><strong>Address:</strong> {{ address }}</p>
+        </div>
+    </div>
+
+    <!-- 教育背景 -->
+    <div class="section-title">Education</div>
+    <div class="row">
+        {% for edu in education %}
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5><strong>{{ edu.institution }}</strong></h5>
+                <p>{{ edu.degree }} ({{ edu.duration }})</p>
+                <p><strong>Major:</strong> {{ edu.major }}</p>
+                <p><strong>Core Modules:</strong> {{ edu.core_modules|join:", " }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 工作经验 -->
+    <div class="section-title">Experience</div>
+    <div class="row">
+        {% for exp in experience %}
+        <div class="col-md-6 mb-4">
+            <div class="card p-4">
+                <h5><strong>{{ exp.role }}</strong></h5>
+                {% if exp.company %}
+                    <p>Company: {{ exp.company }}</p>
+                {% elif exp.lab %}
+                    <p>Lab: {{ exp.lab }}</p>
+                {% endif %}
+                <p>Duration: {{ exp.duration }}</p>
+                <ul>
+                    {% for desc in exp.description %}
+                    <li>{{ desc }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 技能和兴趣爱好 -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="section-title">Skills</div>
+            <ul class="list-group">
+                {% for skill in skills %}
+                <li class="list-group-item">{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div class="section-title">Hobbies</div>
+            <ul class="list-group">
+                {% for hobby in hobbies %}
+                <li class="list-group-item">{{ hobby }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
